@@ -1,0 +1,9 @@
+{
+  "name": "remark-directive-rehype",
+  "version": "0.0.0",
+  "description": "Remark plugin that integrates remark-directive with remark-rehype",
+  "main": "index.ts",
+  "author": "Igor Gassmann (https://igassmann.me/)",
+  "license": "Unlicense",
+  "private": false
+}
