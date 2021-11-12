@@ -1,6 +1,6 @@
 {
   "name": "remark-directive-rehype",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Remark plugin that integrates remark-directive with remark-rehype",
   "keywords": [
     "remark",
@@ -19,7 +19,9 @@
   "type": "module",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["./dist/**/*"],
+  "files": [
+    "./dist/**/*"
+  ],
   "scripts": {
     "build": "tsc",
     "prepack": "$npm_execpath run build"
