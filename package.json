@@ -1,15 +1,18 @@
 {
   "name": "remark-directive-rehype",
   "version": "0.1.1",
-  "description": "Remark plugin that integrates remark-directive with remark-rehype",
+  "description": "Remark plugin that integrates remark-directive with remark-rehype.",
   "keywords": [
     "remark",
+    "plugin",
+    "remark-plugin",
+    "directive",
     "remark-directive",
     "rehype",
     "unified",
     "mdast",
     "hast",
-    "plugin"
+    "markdown"
   ],
   "license": "Unlicense",
   "homepage": "https://github.com/IGassmann/remark-directive-rehype#readme",
