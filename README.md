@@ -1,130 +1,64 @@
-# remark-gfm
+# remark-directive-rehype
 
-[![Build][build-badge]][build]
-[![Coverage][coverage-badge]][coverage]
-[![Downloads][downloads-badge]][downloads]
-[![Size][size-badge]][size]
-
-**[remark][]** plugin to support [GFM][] (autolink literals, footnotes,
-strikethrough, tables, tasklists).
-
-## Contents
-
-*   [What is this?](#what-is-this)
-*   [When should I use this?](#when-should-i-use-this)
-*   [Install](#install)
-*   [Use](#use)
-*   [API](#api)
-    *   [`unified().use(remarkGfm[, options])`](#unifieduseremarkgfm-options)
-*   [Examples](#examples)
-    *   [Example: `singleTilde`](#example-singletilde)
-    *   [Example: `stringLength`](#example-stringlength)
-*   [Types](#types)
-*   [Compatibility](#compatibility)
-*   [Security](#security)
-*   [Related](#related)
-*   [Contribute](#contribute)
-*   [License](#license)
+**[remark][]** plugin to integrate [remark-directive][] with [remark-rehype][].
 
 ## What is this?
 
-This package is a [unified][] ([remark][]) plugin to enable the extensions to
-markdown that GitHub adds: autolink literals (`www.x.com`), footnotes (`[^1]`),
-strikethrough (`~~stuff~~`), tables (`| cell |…`), and tasklists (`* [x]`).
-You can use this plugin to add support for parsing and serializing them.
-These extensions by GitHub to CommonMark are called [GFM][] (GitHub Flavored
-Markdown).
+This package is a [unified][] ([remark][]) plugin to enable Markdown directives to be parsed as 
+HTML when using [remark-rehype][]. Markdown directives are first parsed with 
+[remark-directive][] which needs to be used before this plugin.
 
 **unified** is a project that transforms content with abstract syntax trees
 (ASTs).
 **remark** adds support for markdown to unified.
+**rehype** adds support for HTML to unified.
 **mdast** is the markdown AST that remark uses.
+**hast** is the markdown AST that rehype uses.
 This is a remark plugin that transforms mdast.
 
 ## When should I use this?
 
-This project is useful when you want to support the same features that GitHub
-does in files in a repo, Gists, and several other places.
-Users frequently believe that some of these extensions, specifically autolink
-literals and tables, are part of normal markdown, so using `remark-gfm` will
-help match your implementation to their understanding of markdown.
-There are several edge cases where GitHub’s implementation works in unexpected
-ways or even different than described in their spec, so *writing* in GFM is not
-always the best choice.
+This project is useful when you want directives parsed by [remark-directive][] to be later 
+parsed as HTML ([hast][] nodes) when using [remark-rehype][]. This is specifically useful when one 
+wants to convert Markdown directives into HTML tags that can be outputted as components with 
+[remark-markdown][].
 
-This plugin does not handle how markdown is turned to HTML.
-That’s done by [`remark-rehype`][remark-rehype].
-If your content is not in English and uses footnotes, you should configure that
-plugin.
-When generating HTML, you might also want to enable [`rehype-slug`][rehype-slug]
-to add `id`s on headings.
-
-A different plugin, [`remark-frontmatter`][remark-frontmatter], adds support for
-frontmatter.
-GitHub supports YAML frontmatter for files in repos and Gists but they don’t
-treat it as part of GFM.
-
-Another plugin, [`remark-github`][remark-github], adds support for how markdown
-works in relation to a certain GitHub repo in comments, issues, PRs, and
-releases, by linking references to commits, issues, and users.
-
-Yet another plugin, [`remark-breaks`][remark-breaks], turns soft line endings
-(enters) into hard breaks (`<br>`s).
-GitHub does this in a few places (comments, issues, PRs, and releases).
-
-## Install
+## Installation
 
 This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
-In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
+In Node.js (version 12.20+, 14.14+, or 16.0+), install with [yarn][] or [npm][] :
 
 ```sh
-npm install remark-gfm
+yarn add remark-directive-rehype
+npm install remark-directive-rehype
 ```
 
 In Deno with [Skypack][]:
 
 ```js
-import remarkGfm from 'https://cdn.skypack.dev/remark-gfm@3?dts'
+import remarkDirectiveRehype from 'https://cdn.skypack.dev/remark-directive-rehype'
 ```
 
 In browsers with [Skypack][]:
 
 ```html
 <script type="module">
-  import remarkGfm from 'https://cdn.skypack.dev/remark-gfm@3?min'
+  import remarkDirectiveRehype from 'https://cdn.skypack.dev/remark-directive-rehype?min'
 </script>
 ```
 
-## Use
+## Usage
 
-Say we have the following file `example.md`:
+Say we have the following file, `example.md`:
 
 ```markdown
-# GFM
+:::documentation-page{title="Welcome"}
 
-## Autolink literals
+Please install :inline-code[unified]!
 
-www.example.com, https://example.com, and contact@example.com.
+::copyright-notice{year="2020"}
 
-## Footnote
-
-A note[^1]
-
-[^1]: Big note.
-
-## Strikethrough
-
-~one~ or ~~two~~ tildes.
-
-## Table
-
-| a | b  |  c |  d  |
-| - | :- | -: | :-: |
-
-## Tasklist
-
-* [ ] to do
-* [x] done
+:::
 ```
 
 And our module `example.js` looks as follows:
@@ -133,7 +67,8 @@ And our module `example.js` looks as follows:
 import {read} from 'to-vfile'
 import {unified} from 'unified'
 import remarkParse from 'remark-parse'
-import remarkGfm from 'remark-gfm'
+import remarkDirective from 'remark-directive'
+import remarkDirectiveRehype from 'remark-directive-rehype'
 import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 
@@ -142,7 +77,8 @@ main()
 async function main() {
   const file = await unified()
     .use(remarkParse)
-    .use(remarkGfm)
+    .use(remarkDirective)
+    .use(remarkDirectiveRehype)
     .use(remarkRehype)
     .use(rehypeStringify)
     .process(await read('example.md'))
@@ -154,291 +90,111 @@ async function main() {
 Now running `node example` yields:
 
 ```html
-<h1>GFM</h1>
-<h2>Autolink literals</h2>
-<p><a href="http://www.example.com">www.example.com</a>, <a href="https://example.com">https://example.com</a>, and <a href="mailto:contact@example.com">contact@example.com</a>.</p>
-<h2>Footnote</h2>
-<p>A note<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref aria-describedby="footnote-label">1</a></sup></p>
-<h2>Strikethrough</h2>
-<p><del>one</del> or <del>two</del> tildes.</p>
-<h2>Table</h2>
-<table>
-<thead>
-<tr>
-<th>a</th>
-<th align="left">b</th>
-<th align="right">c</th>
-<th align="center">d</th>
-</tr>
-</thead>
-</table>
-<h2>Tasklist</h2>
-<ul class="contains-task-list">
-<li class="task-list-item"><input type="checkbox" disabled> to do</li>
-<li class="task-list-item"><input type="checkbox" checked disabled> done</li>
-</ul>
-<section data-footnotes class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>
-<ol>
-<li id="user-content-fn-1">
-<p>Big note. <a href="#user-content-fnref-1" data-footnote-backref class="data-footnote-backref" aria-label="Back to content">↩</a></p>
-</li>
-</ol>
-</section>
+<documentation-page title="Welcome">
+  <p>Please install <inline-code>unified</inline-code>!</p>
+  <copyright-notice year="2020"></copyright-notice>
+</documentation-page>
 ```
-
-## API
-
-This package exports no identifiers.
-The default export is `remarkGfm`.
-
-### `unified().use(remarkGfm[, options])`
-
-Plugin to support [GFM][] (autolink literals, footnotes, strikethrough, tables,
-tasklists).
-
-##### `options`
-
-Configuration (optional).
-
-###### `options.singleTilde`
-
-Whether to parse strikethrough with a single tilde (`boolean`, default:
-`true`).
-Single tildes work on github.com, but are technically prohibited by the GFM
-spec.
-
-###### `options.tableCellPadding`
-
-Serialize tables with a space between delimiters (`|`) and cell content
-(`boolean`, default: `true`).
-
-###### `options.tablePipeAlign`
-
-Serialize by aligning the delimiters (`|`) between table cells so that they all
-align nicely and form a grid (`boolean`, default: `true`).
-
-###### `options.stringLength`
-
-Function to detect the length of table cell content (`Function`, default:
-`s => s.length`).
-This is used when aligning the delimiters (`|`) between table cells.
-Full-width characters and emoji mess up delimiter alignment when viewing the
-markdown source.
-To fix this, you can pass this function, which receives the cell content and
-returns its “visible” size.
-Note that what is and isn’t visible depends on where the text is displayed.
 
 ## Examples
 
-### Example: `singleTilde`
+### Example: `react-markdown`
 
-To turn off support for parsing strikethrough with single tildes, pass
-`singleTilde: false`:
+You can use it with [react-markdown][] to render custom React components for each defined directive.
+
+```js
+import React from 'react'
+import ReactDom from 'react-dom'
+import ReactMarkdown from 'react-markdown'
+import remarkDirective from 'remark-directive'
+import remarkDirectiveRehype from 'remark-directive-rehype'
+
+const markdown = `
+# Cat videos
+
+::youtube-video[Video of a cat in a box]{#01ab2cd3efg}
+`
+
+const YouTubeVideo = ({id, children}) => (
+  <iframe
+    src={'https://www.youtube.com/embed/' + id}
+    width="200"
+    height="200"
+  >
+    {children}
+  </iframe>
+)
+
+ReactDom.render(
+  <ReactMarkdown
+    children={markdown}
+    remarkPlugins={[remarkDirective, remarkDirectiveRehype]}
+    components={{
+      'youtube-video': YouTubeVideo
+    }}
+  />,
+  document.body
+)
+```
+
+Yields:
+
+```html
+<h1>Cat videos</h1>
+<iframe src="https://www.youtube.com/embed/01ab2cd3efg" width="200" height="200">Video of a cat in a box</iframe>
+```
+
+### Example: `rehype-components`
+
+You can use in conjunction with [rehype-components][] to render components made with [hastscript][].
 
 ```js
 // …
 
 const file = await unified()
   .use(remarkParse)
-  .use(remarkGfm, {singleTilde: false})
+  .use(remarkDirective)
+  .use(remarkDirectiveRehype)
   .use(remarkRehype)
+  .use(rehypeComponents, {
+    components: {
+      'documentation-page': DocumentationPage,
+      'inline-code': InfoBox,
+      'copyright-notice': CopyrightNotice,
+    },
+  })
   .use(rehypeStringify)
   .process('~one~ and ~~two~~')
 
 console.log(String(file))
 ```
 
-Yields:
+See [rehype-components][] for more information on how to implement the components.
 
-```html
-<p>~one~ and <del>two</del></p>
-```
+## Contributing
 
-### Example: `stringLength`
+Contributions are always welcome!
 
-It’s possible to align tables based on the visual width of cells.
-First, let’s show the problem:
-
-```js
-import {remark} from 'remark'
-import remarkGfm from 'remark-gfm'
-
-main()
-
-async function main() {
-  const input = `| Alpha | Bravo |
-| - | - |
-| 中文 | Charlie |
-| 👩‍❤️‍👩 | Delta |`
-
-  const file = await remark()
-    .use(remarkGfm)
-    .process(input)
-
-  console.log(String(file))
-}
-```
-
-The above code shows how remark can be used to format markdown.
-The output is as follows:
-
-```markdown
-| Alpha    | Bravo   |
-| -------- | ------- |
-| 中文       | Charlie |
-| 👩‍❤️‍👩 | Delta   |
-```
-
-To improve the alignment of these full-width characters and emoji, pass a
-`stringLength` function that calculates the visual width of cells.
-One such algorithm is [`string-width`][string-width].
-It can be used like so:
-
-```diff
-@@ -1,5 +1,6 @@
- import {remark} from 'remark'
- import remarkGfm from 'remark-gfm'
-+import stringWidth from 'string-width'
-
- main()
-
-@@ -10,7 +11,7 @@ async function main() {
- | 👩‍❤️‍👩 | Delta |`
-
-   const file = await remark()
--    .use(remarkGfm)
-+    .use(remarkGfm, {stringLength: stringWidth})
-     .process(input)
-
-   console.log(String(file))
-```
-
-The output of our code with these changes is as follows:
-
-```markdown
-| Alpha | Bravo   |
-| ----- | ------- |
-| 中文  | Charlie |
-| 👩‍❤️‍👩    | Delta   |
-```
-
-## Types
-
-This package is fully typed with [TypeScript][].
-It exports an `Options` type, which specifies the interface of the accepted
-options.
-
-## Compatibility
-
-Projects maintained by the unified collective are compatible with all maintained
-versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
-Our projects sometimes work with older versions, but this is not guaranteed.
-
-This plugin works with `remark-parse` version 10+ (`remark` version 14+).
-The previous version (v2) worked with `remark-parse` version 9 (`remark`
-version 13).
-Earlier versions of `remark-parse` and `remark` had a `gfm` option that enabled
-this functionality, which defaulted to true.
-
-## Security
-
-Use of `remark-gfm` does not involve **[rehype][]** (**[hast][]**) so there are
-no openings for [cross-site scripting (XSS)][xss] attacks.
-
-## Related
-
-*   [`remark-github`][remark-github]
-    — link references to commits, issues, PRs, and users
-*   [`remark-breaks`][remark-breaks]
-    — support breaks without needing spaces or escapes (enters to `<br>`)
-*   [`remark-frontmatter`][remark-frontmatter]
-    — support frontmatter (YAML, TOML, and more)
-*   [`remark-directive`](https://github.com/remarkjs/remark-directive)
-    — support directives
-*   [`remark-math`](https://github.com/remarkjs/remark-math)
-    — support math
-
-## Contribute
-
-See [`contributing.md`][contributing] in [`remarkjs/.github`][health] for ways
-to get started.
-See [`support.md`][support] for ways to get help.
-
-This project has a [code of conduct][coc].
-By interacting with this repository, organization, or community you agree to
-abide by its terms.
-
-## License
-
-[MIT][license] © [Titus Wormer][author]
+See [`./docs/CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for ways to get started.
 
 <!-- Definitions -->
 
-[build-badge]: https://github.com/remarkjs/remark-gfm/workflows/main/badge.svg
-
-[build]: https://github.com/remarkjs/remark-gfm/actions
-
-[coverage-badge]: https://img.shields.io/codecov/c/github/remarkjs/remark-gfm.svg
-
-[coverage]: https://codecov.io/github/remarkjs/remark-gfm
-
-[downloads-badge]: https://img.shields.io/npm/dm/remark-gfm.svg
-
-[downloads]: https://www.npmjs.com/package/remark-gfm
-
-[size-badge]: https://img.shields.io/bundlephobia/minzip/remark-gfm.svg
-
-[size]: https://bundlephobia.com/result?p=remark-gfm
-
-[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
-
-[backers-badge]: https://opencollective.com/unified/backers/badge.svg
-
-[collective]: https://opencollective.com/unified
-
-[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
-
-[chat]: https://github.com/remarkjs/remark/discussions
-
-[npm]: https://docs.npmjs.com/cli/install
-
-[skypack]: https://www.skypack.dev
-
-[health]: https://github.com/remarkjs/.github
-
-[contributing]: https://github.com/remarkjs/.github/blob/HEAD/contributing.md
-
-[support]: https://github.com/remarkjs/.github/blob/HEAD/support.md
-
-[coc]: https://github.com/remarkjs/.github/blob/HEAD/code-of-conduct.md
-
-[license]: license
-
-[author]: https://wooorm.com
-
 [remark]: https://github.com/remarkjs/remark
 
-[unified]: https://github.com/unifiedjs/unified
-
-[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
-
-[typescript]: https://www.typescriptlang.org
-
-[rehype]: https://github.com/rehypejs/rehype
-
-[hast]: https://github.com/syntax-tree/hast
-
-[gfm]: https://github.github.com/gfm/
-
-[remark-frontmatter]: https://github.com/remarkjs/remark-frontmatter
-
-[remark-github]: https://github.com/remarkjs/remark-github
-
-[remark-breaks]: https://github.com/remarkjs/remark-breaks
+[remark-directive]: https://github.com/remarkjs/remark-directive
 
 [remark-rehype]: https://github.com/remarkjs/remark-rehype
 
-[rehype-slug]: https://github.com/rehypejs/rehype-slug
+[unified]: https://github.com/unifiedjs/unified
 
-[string-width]: https://github.com/sindresorhus/string-width
+[yarn]: https://yarnpkg.com/lang/en/docs/install/
+
+[npm]: https://docs.npmjs.com/cli/install
+
+[skypack]: https://www.skypack.dev/
+
+[react-markdown]: https://github.com/remarkjs/react-markdown
+
+[rehype-components]: https://github.com/marekweb/rehype-components
+
+[hastscript]: https://github.com/syntax-tree/hastscript
