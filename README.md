@@ -4,7 +4,8 @@
 
 ## What is this?
 
-This package is a [unified][] ([remark][]) plugin to enable Markdown directives to be parsed as 
+This package is a [unified][] ([remark][]) plugin to ene
+able Markdown directives to be parsed as 
 HTML when using [remark-rehype][]. Markdown directives are first parsed with 
 [remark-directive][] which needs to be used before this plugin.
 
@@ -186,6 +187,8 @@ See [`./docs/CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for ways to get started.
 [remark-rehype]: https://github.com/remarkjs/remark-rehype
 
 [unified]: https://github.com/unifiedjs/unified
+
+[hast]: https://github.com/syntax-tree/hast
 
 [yarn]: https://yarnpkg.com/lang/en/docs/install/
 
