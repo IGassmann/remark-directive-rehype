@@ -1,6 +1,6 @@
 {
   "name": "remark-directive-rehype",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Remark plugin to enable Markdown directives to be parsed as HTML.",
   "keywords": [
     "remark",
