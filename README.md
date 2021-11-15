@@ -164,7 +164,7 @@ const file = await unified()
     },
   })
   .use(rehypeStringify)
-  .process('~one~ and ~~two~~')
+  .process(await read('example.md'))
 
 console.log(String(file))
 ```
