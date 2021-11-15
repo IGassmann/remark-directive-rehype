@@ -4,10 +4,9 @@
 
 ## What is this?
 
-This package is a [unified][] ([remark][]) plugin to ene
-able Markdown directives to be parsed as 
-HTML when using [remark-rehype][]. Markdown directives are first parsed with 
-[remark-directive][] which needs to be used before this plugin.
+This package is a [unified][] ([remark][]) plugin to enable Markdown directives to be parsed as HTML
+when using [remark-rehype][]. Markdown directives are first parsed with [remark-directive][] 
+which needs to be used before this plugin.
 
 **unified** is a project that transforms content with abstract syntax trees
 (ASTs).
@@ -19,9 +18,9 @@ This is a remark plugin that transforms mdast.
 
 ## When should I use this?
 
-This project is useful when you want directives parsed by [remark-directive][] to be later 
-parsed as HTML ([hast][] nodes) when using [remark-rehype][]. This is specifically useful when one 
-wants to convert Markdown directives into HTML tags that can be outputted as components with 
+This project is useful when you want directives parsed by [remark-directive][] to be later parsed as
+HTML ([hast][] nodes) when using [remark-rehype][]. This is specifically useful when one wants to
+convert Markdown directives into HTML tags that can be outputted as components with 
 [remark-markdown][].
 
 ## Installation
