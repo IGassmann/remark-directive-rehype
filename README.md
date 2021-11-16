@@ -21,7 +21,7 @@ This is a remark plugin that transforms mdast.
 This project is useful when you want directives parsed by [remark-directive][] to be later parsed as
 HTML ([hast][] nodes) when using [remark-rehype][]. This is specifically useful when one wants to
 convert Markdown directives into HTML tags that can be outputted as components with 
-[remark-markdown][].
+[react-markdown][].
 
 ## Installation
 
