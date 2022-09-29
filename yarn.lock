@@ -491,10 +491,10 @@ unist-util-is@^5.0.0:
   resolved "https://registry.yarnpkg.com/unist-util-is/-/unist-util-is-5.1.1.tgz#e8aece0b102fa9bc097b0fef8f870c496d4a6236"
   integrity sha512-F5CZ68eYzuSvJjGhCLPL3cYx45IxkqXSetCcRgUXtbcm50X2L9oOWQlfUfDdAf+6Pd27YDblBfdtmsThXmwpbQ==
 
-unist-util-map@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/unist-util-map/-/unist-util-map-3.1.1.tgz#e69e23fc36a9dd6dfebc90ce8c3cc8e426ed2a71"
-  integrity sha512-n36sjBn4ibPtAzrFweyT4FOcCI/UdzboaEcsZvwoAyD/gVw5B3OLlMBySePMO6r+uzjxQEyRll2akfVaT4SHhw==
+unist-util-map@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/unist-util-map/-/unist-util-map-3.1.2.tgz#c389677fd6ce5c0cc10af44115acaca7944a3569"
+  integrity sha512-WLA2R6x/UaopedG2poaWLShf5LCi+BNa6mMkACdjft23PHou4v85PvZItjbO2XgXvukMP365PlL/DrbuMgr3eg==
   dependencies:
     "@types/unist" "^2.0.0"
 
