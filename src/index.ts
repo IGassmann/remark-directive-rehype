@@ -3,7 +3,7 @@ import { map } from 'unist-util-map'
 
 import type { Directive as DirectiveNode } from 'mdast-util-directive';
 import type { Plugin, Transformer } from 'unified';
-import type { MapFunction } from 'unist-util-map/complex-types'
+import type { MapFunction } from 'unist-util-map'
 import type { Node } from 'unist'
 
 const isDirectiveNode = (node: Node): node is DirectiveNode => {
