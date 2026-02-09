@@ -13,7 +13,7 @@ which needs to be used before this plugin.
 **remark** adds support for markdown to unified.
 **rehype** adds support for HTML to unified.
 **mdast** is the markdown AST that remark uses.
-**hast** is the markdown AST that rehype uses.
+**hast** is the HTML AST that rehype uses.
 This is a remark plugin that transforms mdast.
 
 ## When should I use this?
