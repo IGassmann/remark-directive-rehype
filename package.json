@@ -31,7 +31,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "prepack": "$npm_execpath run build"
+    "prepack": "pnpm build"
   },
   "dependencies": {
     "hastscript": "^9.0.1",
