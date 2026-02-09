@@ -151,11 +151,6 @@ console.log(String(file))
 
 See [rehype-components][] for more information on how to implement the components.
 
-## Contributing
-
-Contributions are always welcome!
-
-See [`./docs/CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for ways to get started.
 
 <!-- Definitions -->
 
