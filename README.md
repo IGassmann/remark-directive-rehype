@@ -26,25 +26,10 @@ convert Markdown directives into HTML tags that can be outputted as components w
 ## Installation
 
 This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
-In Node.js (version 20+), install with [yarn][] or [npm][] :
+In Node.js (version 20+), install with [npm][]:
 
 ```sh
-yarn add remark-directive-rehype
 npm install remark-directive-rehype
-```
-
-In Deno with [Skypack][]:
-
-```js
-import remarkDirectiveRehype from 'https://cdn.skypack.dev/remark-directive-rehype'
-```
-
-In browsers with [Skypack][]:
-
-```html
-<script type="module">
-  import remarkDirectiveRehype from 'https://cdn.skypack.dev/remark-directive-rehype?min'
-</script>
 ```
 
 ## Usage
@@ -189,11 +174,7 @@ See [`./docs/CONTRIBUTING.md`](./docs/CONTRIBUTING.md) for ways to get started.
 
 [hast]: https://github.com/syntax-tree/hast
 
-[yarn]: https://yarnpkg.com/lang/en/docs/install/
-
 [npm]: https://docs.npmjs.com/cli/install
-
-[skypack]: https://www.skypack.dev/
 
 [react-markdown]: https://github.com/remarkjs/react-markdown
 
