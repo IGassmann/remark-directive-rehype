@@ -1,7 +1,7 @@
 import { h } from 'hastscript'
 import { map } from 'unist-util-map'
 
-import type { Directive as DirectiveNode } from 'mdast-util-directive';
+import type { Directives as DirectiveNode } from 'mdast-util-directive';
 import type { Plugin, Transformer } from 'unified';
 import type { MapFunction } from 'unist-util-map'
 import type { Node } from 'unist'
@@ -14,7 +14,7 @@ const isDirectiveNode = (node: Node): node is DirectiveNode => {
 const mapDirectiveNode: MapFunction = (node) => {
   if (isDirectiveNode(node)) {
 
-    const { properties, tagName } = h(node.name, node.attributes);
+    const { properties, tagName } = h(node.name, node.attributes ?? {});
 
     return {
       ...node,
