@@ -88,9 +88,8 @@ Now running `node example` yields:
 You can use it with [react-markdown][] to render custom React components for each defined directive.
 
 ```js
-import React from 'react'
-import ReactDom from 'react-dom'
-import ReactMarkdown from 'react-markdown'
+import { createRoot } from 'react-dom/client'
+import Markdown from 'react-markdown'
 import remarkDirective from 'remark-directive'
 import remarkDirectiveRehype from 'remark-directive-rehype'
 
@@ -110,15 +109,15 @@ const YouTubeVideo = ({id, children}) => (
   </iframe>
 )
 
-ReactDom.render(
-  <ReactMarkdown
-    children={markdown}
+createRoot(document.getElementById('root')).render(
+  <Markdown
     remarkPlugins={[remarkDirective, remarkDirectiveRehype]}
     components={{
       'youtube-video': YouTubeVideo
     }}
-  />,
-  document.body
+  >
+    {markdown}
+  </Markdown>
 )
 ```
 
