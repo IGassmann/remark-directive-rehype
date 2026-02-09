@@ -28,6 +28,7 @@ const mapDirectiveNode: MapFunction = (node) => {
     return {
       ...node,
       data: {
+        ...node.data,
         hName: tagName,
         hProperties: properties
       }
