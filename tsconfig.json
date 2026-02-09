@@ -1,13 +1,18 @@
 {
   "compilerOptions": {
-    "module": "es2020",
-    "moduleResolution": "node",
-    "target": "es2015",
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
     "strict": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "noUncheckedIndexedAccess": true,
+    "noUncheckedSideEffectImports": true,
+    "exactOptionalPropertyTypes": true,
+    "module": "node20",
+    "outDir": "./dist/",
+    "sourceMap": true,
     "declaration": true,
-    "outDir": "./dist/"
+    "declarationMap": true,
+    "lib": ["es2023"]
   },
   "include": ["./src/**/*"],
   "exclude": ["**/*.test.ts"]
