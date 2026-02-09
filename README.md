@@ -57,19 +57,15 @@ import remarkDirectiveRehype from 'remark-directive-rehype'
 import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 
-main()
+const file = await unified()
+  .use(remarkParse)
+  .use(remarkDirective)
+  .use(remarkDirectiveRehype)
+  .use(remarkRehype)
+  .use(rehypeStringify)
+  .process(await read('example.md'))
 
-async function main() {
-  const file = await unified()
-    .use(remarkParse)
-    .use(remarkDirective)
-    .use(remarkDirectiveRehype)
-    .use(remarkRehype)
-    .use(rehypeStringify)
-    .process(await read('example.md'))
-
-  console.log(String(file))
-}
+console.log(String(file))
 ```
 
 Now running `node example` yields:
