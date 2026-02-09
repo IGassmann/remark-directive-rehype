@@ -26,7 +26,7 @@ convert Markdown directives into HTML tags that can be outputted as components w
 ## Installation
 
 This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
-In Node.js (version 12.20+, 14.14+, or 16.0+), install with [yarn][] or [npm][] :
+In Node.js (version 20+), install with [yarn][] or [npm][] :
 
 ```sh
 yarn add remark-directive-rehype
