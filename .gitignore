@@ -6,6 +6,3 @@ node_modules/
 
 # Log files
 *.log*
-
-# Test coverage output
-/coverage/
