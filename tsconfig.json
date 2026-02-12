@@ -9,7 +9,6 @@
     "exactOptionalPropertyTypes": true,
     "module": "node20",
     "outDir": "./dist/",
-    "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
     "lib": ["es2023"]
